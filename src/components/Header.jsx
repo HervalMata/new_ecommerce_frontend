@@ -169,7 +169,7 @@ const Header = () => {
                      } hidden md-lg:block w-screen h-screen 
                      bg-[rgba(0,0,0,0.5)] top-0 left-0 z-20`}></div>
                 <div className={`fixed top-0 w-[300px] z-[9999] transition-all duration-200 ${
-                           isSidebarOpen ? '-left-[300px]' : 'left-0 top-0'} overflow-y-auto
+                           isSidebarOpen ? 'left-0' : '-left-[360px] top-0'} overflow-y-auto
                            bg-white h-screen py-6 px-8`}>
                     <div  className="flex justify-start flex-col gap-6">
                         <Link to="/">
