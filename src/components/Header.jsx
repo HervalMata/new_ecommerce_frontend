@@ -12,6 +12,7 @@ const Header = () => {
     const [categoryShow, setCategoryShow] = useState(true);
     const [searchValue, setSearchValue] = useState('');
     const [category, setCategory] = useState('')
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const user = true
     const wishlist_count = 3
@@ -93,7 +94,7 @@ const Header = () => {
                                 </Link>
                                 <div className="justify-center items-center w-[30px] h-[30px] bg-white text-slate-600
                                        border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex
-                                       xl:hidden hidden" onClick={() => setShowSidebar(false)}>
+                                       xl:hidden hidden" onClick={() => setIsSidebarOpen(true)}>
                                     <span><FaList /></span>
                                 </div>
                             </div>
@@ -162,13 +163,13 @@ const Header = () => {
             </div>
 
             <div className="hidden md-lg:block">
-                <div onClick={() => setShowSidebar(true)}
+                <div onClick={() => setIsSidebarOpen(false)}
                      className={`fixed duration-200 transition-all ${
-                         showSidebar ? 'visible' : 'invisible'
+                         isSidebarOpen ? 'visible' : 'invisible'
                      } hidden md-lg:block w-screen h-screen 
                      bg-[rgba(0,0,0,0.5)] top-0 left-0 z-20`}></div>
-                <div className={`w-[300px] z-[9999] transition-all duration-200 ${
-                           showSidebar ? '-left-[300px]' : 'left-0 top-0'} overflow-y-auto
+                <div className={`fixed top-0 w-[300px] z-[9999] transition-all duration-200 ${
+                           isSidebarOpen ? '-left-[300px]' : 'left-0 top-0'} overflow-y-auto
                            bg-white h-screen py-6 px-8`}>
                     <div  className="flex justify-start flex-col gap-6">
                         <Link to="/">
@@ -302,7 +303,7 @@ const Header = () => {
                                             name="" id="">
                                             <option value="">Selecione a Categoria</option>
                                             {
-                                                categories.map((category, index) => <option value={category}>{category}</option>)
+                                                categories.map((category, index) => <option key={index} value={category}>{category}</option>)
                                             }
                                         </select>
                                     </div>
