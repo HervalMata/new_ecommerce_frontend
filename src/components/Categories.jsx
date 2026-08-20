@@ -42,8 +42,8 @@ const Categories = () => {
 
     return (
         <div className="w-[87%] mx-auto relativer">
-            <div className="w-full"><
-                div className="text-center flex justify-center items-center flex-col text-3xl text-slate-600 font-bold
+            <div className="w-full">
+                <div className="text-center flex justify-center items-center flex-col text-3xl text-slate-600 font-bold
                                 relative pb-[35px]">
                     <h2>Categorias</h2>
                     <div className="w-[100px] h-[2px] bg-[#059473] mt-4"></div>
