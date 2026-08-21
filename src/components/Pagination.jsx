@@ -2,19 +2,23 @@ import {MdOutlineKeyboardDoubleArrowLeft, MdOutlineKeyboardDoubleArrowRight} fro
 
 const Pagination = ({ pageNumber, setPageNumber, totalItem, perPage, showItem }) => {
     let totalPage = Math.ceil(totalItem/perPage);
-    let startPage = pageNumber
-    let diff = totalPage - pageNumber
+    const visiblePageCount = Math.min(showItem, totalPage)
+    const startPage = Math.min(pageNumber, Math.max(totalPage - visiblePageCount + 1, 1))
+
+    const endPage = startPage + visiblePageCount - 1
+
+    /*let diff = totalPage - pageNumber
     if (diff <= showItem) {
         startPage = totalPage - showItem
     }
-    let endPage = startPage < 0 ? showItem : showItem + startPage
+
     if (startPage <= 0) {
         startPage = 1
-    }
+    }*/
 
     const createBtn = () => {
         const btns = []
-        for (let i = startPage; i < endPage; i++) {
+        for (let i = startPage; i <= endPage; i++) {
             btns.push(
                 <li onClick={() => setPageNumber(i)}
                    className={`${pageNumber === i ? 
