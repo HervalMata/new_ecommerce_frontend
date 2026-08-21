@@ -110,8 +110,8 @@ const Header = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            className={`p-2 block ${pathname === '/'
-                                                ? 'text-[#059473]' : 'text-slate-600'}`} to="/">Loja</Link>
+                                            className={`p-2 block ${pathname === '/shops'
+                                                ? 'text-[#059473]' : 'text-slate-600'}`} to="/shops">Loja</Link>
                                     </li>
                                     <li>
                                         <Link
@@ -214,8 +214,8 @@ const Header = () => {
                             </li>
                             <li>
                                 <Link
-                                    className={`p-2 block ${pathname === '/'
-                                        ? 'text-[#059473]' : 'text-slate-600'}`} to="/">Loja</Link>
+                                    className={`p-2 block ${pathname === '/shops'
+                                        ? 'text-[#059473]' : 'text-slate-600'}`} to="/shops">Loja</Link>
                             </li>
                             <li>
                                 <Link
