@@ -35,15 +35,17 @@ const Products = ({ title }) => {
                     {title}
                 </div>
                 <div>
-                    <button className="w-[30px] h-[30px] flex justify-center items-center bg-slate-300 border
+                    <button aria-label={`Mostrar Anterior ${title}`}
+                        className="w-[30px] h-[30px] flex justify-center items-center bg-slate-300 border
                                      border-slate-200"
                         onClick={() => previous()}>
-                        <IoIosArrowBack />
+                        <IoIosArrowBack aria-hidden="true" />
                     </button>
-                    <button className="w-[30px] h-[30px] flex justify-center items-center bg-slate-300 border
+                    <button aria-label={`Mostrar próximo ${title}`}
+                        className="w-[30px] h-[30px] flex justify-center items-center bg-slate-300 border
                                      border-slate-200"
                         onClick={() => next()}>
-                        <IoIosArrowForward />
+                        <IoIosArrowForward aria-hidden="true" />
                     </button>
                 </div>
             </div>

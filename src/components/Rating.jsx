@@ -3,7 +3,8 @@ import {CiStar} from "react-icons/ci";
 
 const Rating = ({ratings}) => {
     return (
-        <>
+        //<span role="img" aria-label={`${ratings.length} de 5 estrelas`}>
+            <>
             {
                 ratings >= 1 ?
                     <span className='text-[#EDBB0E]'><FaStar /></span> : ratings >= .5 ?
@@ -34,7 +35,8 @@ const Rating = ({ratings}) => {
                         <span className='text-[#EDBB0E]'><FaStarHalfAlt /></span> :
                         <span className="text-slate-600"><CiStar /></span>
             }
-        </>
+            </>
+        //</span>
     )
 }
 
