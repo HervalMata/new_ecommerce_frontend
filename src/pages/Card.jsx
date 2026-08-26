@@ -1,11 +1,23 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {IoIosArrowForward} from "react-icons/io";
 
 const Card = () => {
+    const navigate = useNavigate();
     const card_products = [1, 2]
     const outOfStockProduct = [1, 2]
+
+    const redirect = () => {
+        navigate('/shipping', {
+            state: {
+                products: [],
+                price: 500,
+                shipping_fee: 40,
+                items: 2
+            }
+        })
+    }
 
     return (
         <div>
@@ -15,11 +27,11 @@ const Card = () => {
                 <div className='absolute left-0 top-0 w-full h-full bg-[#2422228A]'>
                     <div className='w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto'>
                         <div className="flex flex-col items-center justify-center gap-1 h-full text-white">
-                            <h2 className="text-3xl font-bold">Card</h2>
+                            <h2 className="text-3xl font-bold">Carrinho</h2>
                             <div className="flex items-center justify-center gap-2 text-2xl w-full">
                                 <Link to="/">Home</Link>
                                 <span className="pt-1"><IoIosArrowForward/></span>
-                                <span>Cartão</span>
+                                <span>Carrinho</span>
                             </div>
                         </div>
                     </div>
@@ -162,8 +174,9 @@ const Card = () => {
                                                         <span>Total</span>
                                                         <span className="text-lg text-[#059473]">R$ 430,00</span>
                                                     </div>
-                                                    <button className="px-5 py-[6px] hover:shadow-red-500/50 bg-red-500
-                                                                 hover:shadow-lg rounded-sm uppercase text-sm text-white">
+                                                    <button onClick={redirect}
+                                                        className="px-5 py-[6px] hover:shadow-red-500/50 bg-red-500
+                                                            hover:shadow-lg rounded-sm uppercase text-sm text-white">
                                                         Ir Para Pagamento
                                                     </button>
                                                 </div>
