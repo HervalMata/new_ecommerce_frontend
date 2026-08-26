@@ -2,17 +2,7 @@ import {Link} from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css'
 
-const Categories = () => {
-    const categories = [
-        'Mobiles',
-        'Laptops',
-        'Speakers',
-        'Top wear',
-        'Footwear',
-        'Watches',
-        'Home Decor',
-        'SmartWatches',
-    ]
+const Categories = ({ categories }) => {
 
     const responsive = {
         superLargeDesktop: {
@@ -61,11 +51,11 @@ const Categories = () => {
                     categories.map((c, i) =>
                         <Link className='border block' to='#' key={i}>
                             <div className='w-full h-full relative p-3'>
-                                <img src={`http://localhost:3000/images/products/${i+1}.webp`} alt="" />
+                                <img src={c.image} alt="" />
                             </div>
                             <div className='absolute bottom-6 w-full mx-auto font-bold left-0 flex items-center
                                              justify-center'>
-                                <span className='py-[2px] px-6 bg-[#3330305D] text-white'>{c}</span>
+                                <span className='py-[2px] px-6 bg-[#3330305D] text-white'>{c.name}</span>
                             </div>
                         </Link>)
                 }

@@ -5,7 +5,7 @@ import {Link, useLocation} from "react-router-dom";
 import {useState} from "react";
 import {FaCartShopping} from "react-icons/fa6";
 
-const Header = () => {
+const Header = ({ categories }) => {
     const {pathname} = useLocation();
 
     const [showSidebar, setShowSidebar] = useState(true);
@@ -16,12 +16,6 @@ const Header = () => {
 
     const user = true
     const wishlist_count = 3
-    const categories = [
-        'Laços',
-        'Tiaras',
-        'Viseiras',
-        'Faixas'
-    ]
 
     return (
         <div className="w-full bg-white">
@@ -102,7 +96,8 @@ const Header = () => {
 
                         <div className="md:lg:w-full w-9/12">
                             <div className="flex justify-between md-lg:justify-center items-center flex-wrap pl-8">
-                                <ul className="flex justify-start items-start gap-8 text-sm font-bold uppercase md-lg:hidden">
+                                <ul className="flex justify-start items-start gap-8 text-sm font-bold uppercase
+                                                md-lg:hidden">
                                     <li>
                                         <Link
                                             className={`p-2 block ${pathname === '/' 
@@ -241,7 +236,8 @@ const Header = () => {
                             <a href="#"><FaGithub /></a>
                         </div>
                         <div className="w-full flex justify-end md-lg:justify-start gap-3 items-center">
-                            <div className="w-[48px] h-[48px] rounded-full flex bg-[#F5F5F5] justify-center items-center">
+                            <div className="w-[48px] h-[48px] rounded-full flex bg-[#F5F5F5] justify-center
+                                             items-center">
                                 <span><FaPhoneAlt /></span>
                             </div>
                             <div className="flex justify-end flex-col gap-1">
@@ -264,8 +260,9 @@ const Header = () => {
                 <div className="flex w-full flex-wrap md-lg:gap-8">
                     <div className="w-3/12 md-lg:w-full">
                         <div className="bg-white relative">
-                            <div className="h-[50px] bg-[#059473] text-white flex justify-center md-lg:justify-between
-                                            md-lg:px-6 items-center gap-3 font-bold text-md cursor-pointer"
+                            <div className="h-[50px] bg-[#059473] text-white flex justify-center
+                                            md-lg:justify-between md-lg:px-6 items-center gap-3 font-bold text-md
+                                            cursor-pointer"
                                  onClick={() => setCategoryShow(!categoryShow)}>
                                 <div className="flex justify-center items-center gap-3">
                                     <span><FaList /></span>
@@ -282,7 +279,9 @@ const Header = () => {
                                             return (
                                                 <li key={index} className="flex justify-start items-center gap-2
                                                       px-[24px] py-[6px]">
-                                                    <Link to={'/'} className="text-sm block">{category}</Link>
+                                                    <img className="w-[30px] h-[30px] rounded-full overflow-hidden"
+                                                         src={category.image} alt="" />
+                                                    <Link to={'/'} className="text-sm block">{category.name}</Link>
                                                 </li>
                                             )
                                         })
@@ -303,14 +302,16 @@ const Header = () => {
                                             name="" id="">
                                             <option value="">Selecione a Categoria</option>
                                             {
-                                                categories.map((category, index) => <option key={index} value={category}>{category}</option>)
+                                                categories.map((category, index) =>
+                                                    <option key={index} value={category.name}>{category.name}</option>)
                                             }
                                         </select>
                                     </div>
                                     <input className="w-full relative bg-transparent text-slate-500 outline-0
                                                  px-3 h-full"
                                         type="text" name="" id="" placeholder="Categoria"
-                                           onChange={(e) => setSearchValue(e.target.value)} />
+                                           onChange={(e) =>
+                                               setSearchValue(e.target.value)} />
                                     <button className="bg-[#059473] right-0 absolute px-8 h-full font-semibold
                                                       uppercase text-white">
                                         Pesquisar
@@ -320,7 +321,8 @@ const Header = () => {
 
                             <div className="w-4/12 block md-lg:hidden pl-2 md-lg:w-full md-lg:pl-0">
                                 <div className="w-full flex justify-end md-lg:justify-start gap-3 items-center">
-                                    <div className="w-[48px] h-[48px] rounded-full flex bg-[#F5F5F5] justify-center items-center">
+                                    <div className="w-[48px] h-[48px] rounded-full flex bg-[#F5F5F5] justify-center
+                                    items-center">
                                         <span><FaPhoneAlt /></span>
                                     </div>
                                     <div className="flex justify-end flex-col gap-1">
