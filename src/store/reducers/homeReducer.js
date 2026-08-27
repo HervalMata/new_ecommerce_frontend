@@ -25,14 +25,45 @@ export const get_products = createAsyncThunk(
     }
 )
 
+export const price_range_product = createAsyncThunk(
+    'product/price_range_product',
+    async (_, { fulfillWithValue }) => {
+        try {
+            const { data } = await api.get('/home/price_range_product');
+            return fulfillWithValue(data)
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+)
+
+export const query_products = createAsyncThunk(
+    'product/query_products',
+    async (query, { fulfillWithValue }) => {
+        try {
+            const { data } = await api.get(`/home/query_products?category=${query.category}&&range=${query.rating}
+       $$lowPrice=${query.low}&&highPrice=${query.high}&&sortPrice=${query.sortPrice}&&pageNumber=${query.pageNumber}`);
+            return fulfillWithValue(data)
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+)
+
 export const homeReducer = createSlice({
     name: "home",
     initialState: {
         categories: [],
         products: [],
+        totalProduct: 0,
+        perPage: 3,
         latest_product: [],
         topRated_product: [],
         discount_product: [],
+        priceRange: {
+            low: 0,
+            high: 100,
+        }
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -45,6 +76,15 @@ export const homeReducer = createSlice({
                 state.lated_product = payload.latest_product;
                 state.topRated_product = payload.topRated_product;
                 state.discount_product = payload.discount_product;
+            })
+            .addCase(price_range_product.fulfilled, (state, { payload }) => {
+                state.lated_product = payload.latest_product;
+                state.priceRange = payload.priceRange;
+            })
+            .addCase(query_products.fulfilled, (state, { payload }) => {
+                state.products = payload.products;
+                state.totalProduct = payload.totalProduct;
+                state.perPage = payload.perPage;
             })
     },
 })

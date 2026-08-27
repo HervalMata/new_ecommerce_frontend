@@ -4,8 +4,12 @@ import {FaFacebook, FaGithub, FaHeart, FaLinkedin, FaList, FaLock, FaPhoneAlt, F
 import {Link, useLocation} from "react-router-dom";
 import {useState} from "react";
 import {FaCartShopping} from "react-icons/fa6";
+import {useSelector} from "react-redux";
 
-const Header = ({ categories }) => {
+const Header = () => {
+    const {
+        categories = [],
+    } = useSelector(state => state.home ?? {});
     const {pathname} = useLocation();
 
     const [showSidebar, setShowSidebar] = useState(true);
