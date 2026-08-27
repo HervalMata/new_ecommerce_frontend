@@ -3,7 +3,7 @@ import {RiShoppingCartLine} from "react-icons/ri";
 import Rating from "../Rating";
 import {Link} from "react-router-dom";
 
-const FeaturedProducts = () => {
+const FeaturedProducts = ({ products }) => {
     return (
         <div className="w-[87%] mx-auto relativer">
             <div className="w-full">
@@ -15,13 +15,18 @@ const FeaturedProducts = () => {
             </div>
             <div className="w-full grid grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
                 {
-                    [1,2,3,4,5,6,7,8].map((p, i) =>
+                    products.map((p, i) =>
                         <div key={i} className="border group transition-all duration-500 hover:shadow-md hover:-mt-3">
                             <div className="relative overflow-hidden">
-                                <div className="flex justify-center items-center absolute text-white w-[30px] h-[30px]
-                                                rounded-full bg-red-500 font-semibold text-xs left-2 top-0">8%</div>
-                                <img className='sm:w-full h-[240px]'
-                                     src={`http://localhost:3000/images/products/${i+1}.webp`} alt="" />
+                                {
+                                    p.discount ?
+                                        <div className="flex justify-center items-center absolute text-white w-[30px] h-[30px]
+                                                rounded-full bg-red-500 font-semibold text-xs left-2 top-0">
+                                            {p.discount}%
+                                        </div> : ''
+                                }
+
+                                <img className='sm:w-full h-[240px]' src={p.images[0]} alt="" />
 
                                 <ul className="flex transition-all duration-700 -bottom-10 justify-center items-center
                                                gap-2 absolute w-full group-hover:bottom-3">
@@ -45,11 +50,11 @@ const FeaturedProducts = () => {
                             </div>
 
                             <div className="py-3 text-slate-600 px-2">
-                                <h2 className="font-bold">Nome do Produto</h2>
+                                <h2 className="font-bold">{p.name}</h2>
                                 <div className="flex items-center justify-start gap-3">
-                                    <span>R$ 656,00</span>
+                                    <span>R$ {p.price.toLocaleString("pt-BR")}</span>
                                     <div className="flex">
-                                        <Rating ratings={4.5} />
+                                        <Rating ratings={p.rating} />
                                     </div>
                                 </div>
                             </div>
