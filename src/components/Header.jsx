@@ -12,6 +12,7 @@ const Header = () => {
         categories = [],
     } = useSelector(state => state.home ?? {});
     const {userInfo} = useSelector(state => state.auth || []);
+    const { card_product_count } = useSelector(state => state.card || []);
     const {pathname} = useLocation();
 
     const [showSidebar, setShowSidebar] = useState(true);
@@ -23,7 +24,15 @@ const Header = () => {
     const search = () => {
         navigate(`/products/search?category=${category}&&value=${searchValue}`);
     }
-    
+
+    const redirect_card_page = () => {
+        if (userInfo) {
+            navigate('/card')
+        } else {
+            navigate('/login')
+        }
+    }
+
     const wishlist_count = 3
 
     return (
@@ -136,16 +145,21 @@ const Header = () => {
 
                                 <div className="flex justify-between items-center md-lg:hidden gap-5">
                                     <div className="flex justify-center gap-5">
-                                        <div className="relative flex items-center justify-center cursor-pointer w-[35px]
+                                        <div onClick={redirect_card_page}
+                                            className="relative flex items-center justify-center cursor-pointer w-[35px]
                                                        h-[35px] rounded-full bg-[#E2E2E2]">
                                             <span className="text-xl text-green-500"><FaHeart /></span>
-                                            <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full
+                                            {
+                                                card_product_count !== 0 &&
+                                                <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full
                                                            text-white flex justify-center items-center
                                                            -top-[3px] -right-[5px]">
-                                                {
-                                                    wishlist_count
-                                                }
-                                            </div>
+                                                    {
+                                                        card_product_count
+                                                    }
+                                                </div>
+                                            }
+
                                         </div>
                                         <div className="relative flex items-center justify-center cursor-pointer w-[35px]
                                                        h-[35px] rounded-full bg-[#E2E2E2]">
