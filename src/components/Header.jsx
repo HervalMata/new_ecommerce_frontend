@@ -11,6 +11,7 @@ const Header = () => {
     const {
         categories = [],
     } = useSelector(state => state.home ?? {});
+    const {userInfo} = useSelector(state => state.auth || []);
     const {pathname} = useLocation();
 
     const [showSidebar, setShowSidebar] = useState(true);
@@ -22,8 +23,7 @@ const Header = () => {
     const search = () => {
         navigate(`/products/search?category=${category}&&value=${searchValue}`);
     }
-
-    const user = true
+    
     const wishlist_count = 3
 
     return (
@@ -67,12 +67,12 @@ const Header = () => {
                                 </div>
 
                                 {
-                                    user ?
+                                    userInfo ?
                                         <Link to="/dashboard"
                                               className="flex cursor-pointer justify-center items-center gap-2 text-sm
                                                           text-black">
                                             <span> <FaUser /></span>
-                                            <span>Herval Mata</span>
+                                            <span>{userInfo.name}</span>
                                         </Link> :
                                         <Link to="/login"
                                               className="flex cursor-pointer justify-center items-center gap-2 text-sm
@@ -195,12 +195,12 @@ const Header = () => {
                                 </ul>
                             </div>
                             {
-                                user ?
+                                userInfo ?
                                     <Link to="/dashboard"
                                           className="flex cursor-pointer justify-center items-center gap-2 text-sm
                                                           text-black">
                                         <span> <FaUser /></span>
-                                        <span>Herval Mata</span>
+                                        <span>{userInfo.name}</span>
                                     </Link> :
                                     <Link to="/login"
                                           className="flex cursor-pointer justify-center items-center gap-2 text-sm
