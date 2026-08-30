@@ -1,12 +1,13 @@
 import {MdEmail} from "react-icons/md";
 import {IoIosArrowDown, IoMdArrowDropdown, IoMdPhonePortrait} from "react-icons/io";
 import {FaFacebook, FaGithub, FaHeart, FaLinkedin, FaList, FaLock, FaPhoneAlt, FaTwitter, FaUser} from "react-icons/fa";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {FaCartShopping} from "react-icons/fa6";
 import {useSelector} from "react-redux";
 
 const Header = () => {
+    const navigate = useNavigate();
     const {
         categories = [],
     } = useSelector(state => state.home ?? {});
@@ -17,6 +18,10 @@ const Header = () => {
     const [searchValue, setSearchValue] = useState('');
     const [category, setCategory] = useState('')
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const search = () => {
+        navigate(`/products/search?category=${category}&&value=${searchValue}`);
+    }
 
     const user = true
     const wishlist_count = 3
@@ -285,7 +290,8 @@ const Header = () => {
                                                       px-[24px] py-[6px]">
                                                     <img className="w-[30px] h-[30px] rounded-full overflow-hidden"
                                                          src={category.image} alt="" />
-                                                    <Link to={'/'} className="text-sm block">{category.name}</Link>
+                                                    <Link to={`/products?category=${category.name}`}
+                                                          className="text-sm block">{category.name}</Link>
                                                 </li>
                                             )
                                         })
@@ -316,7 +322,8 @@ const Header = () => {
                                         type="text" name="" id="" placeholder="Categoria"
                                            onChange={(e) =>
                                                setSearchValue(e.target.value)} />
-                                    <button className="bg-[#059473] right-0 absolute px-8 h-full font-semibold
+                                    <button onClick={search}
+                                        className="bg-[#059473] right-0 absolute px-8 h-full font-semibold
                                                       uppercase text-white">
                                         Pesquisar
                                     </button>

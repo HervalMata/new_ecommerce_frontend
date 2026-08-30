@@ -6,6 +6,8 @@ import Shipping from "./pages/Shipping";
 import Details from "./pages/Details";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import CategoryShop from "./pages/CategoryShop";
+import SearchProducts from "./pages/SearchProducts";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
               <Route path='/shops' element={<Shops />} />
               <Route path='/card' element={<Card />} />
               <Route path='/shipping' element={<Shipping />} />
+              <Route path='/products?' element={<CategoryShop />} />
+              <Route path='/products/search?' element={<SearchProducts />} />
               <Route path='/product/details/:slug' element={<Details />} />
           </Routes>
       </BrowserRouter>

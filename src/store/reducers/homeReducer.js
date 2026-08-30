@@ -3,49 +3,50 @@ import api from "../../api/api";
 
 export const get_category = createAsyncThunk(
     'product/get_category',
-    async (_, { fulfillWithValue }) => {
+    async (_, { fulfillWithValue, rejectWithValue }) => {
         try {
-            const { data } = await api.get('/home/get_categories');
+            const { data } = await api.get('/home/get-categories');
             return fulfillWithValue(data)
         } catch (error) {
-            console.log(error.response);
+            return rejectWithValue(error.response.data);
         }
     }
 )
 
 export const get_products = createAsyncThunk(
     'product/get_products',
-    async (_, { fulfillWithValue }) => {
+    async (_, { fulfillWithValue, rejectWithValue }) => {
         try {
-            const { data } = await api.get('/home/get_products');
+            const { data } = await api.get('/home/get-products');
             return fulfillWithValue(data)
         } catch (error) {
-            console.log(error.response);
+            return rejectWithValue(error.response.data);
         }
     }
 )
 
 export const price_range_product = createAsyncThunk(
     'product/price_range_product',
-    async (_, { fulfillWithValue }) => {
+    async (_, { fulfillWithValue, rejectWithValue }) => {
         try {
-            const { data } = await api.get('/home/price_range_product');
+            const { data } = await api.get('/home/price-range-product');
             return fulfillWithValue(data)
         } catch (error) {
-            console.log(error.response);
+            return rejectWithValue(error.response.data);
         }
     }
 )
 
 export const query_products = createAsyncThunk(
     'product/query_products',
-    async (query, { fulfillWithValue }) => {
+    async (query, { fulfillWithValue, rejectWithValue }) => {
         try {
-            const { data } = await api.get(`/home/query_products?category=${query.category}&&range=${query.rating}
-       $$lowPrice=${query.low}&&highPrice=${query.high}&&sortPrice=${query.sortPrice}&&pageNumber=${query.pageNumber}`);
+            const { data } = await api.get(`/home/query-products?category=${query.category}&&range=${query.rating}
+       $$lowPrice=${query.low}&&highPrice=${query.high}&&sortPrice=${query.sortPrice}&&pageNumber=${query.pageNumber}
+       &&searchValue=${query.searchValue ? query.searchValue : ""}`);
             return fulfillWithValue(data)
         } catch (error) {
-            console.log(error.response);
+            return rejectWithValue(error.response.data);
         }
     }
 )
