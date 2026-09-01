@@ -1,9 +1,42 @@
 import {FaEye, FaRegHeart} from "react-icons/fa";
 import {RiShoppingCartLine} from "react-icons/ri";
 import Rating from "../Rating";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import toast from "react-hot-toast";
+import {messageClear, add_to_card} from "../../store/reducers/cardReducer";
 
 const FeaturedProducts = ({ products }) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { userInfo } = useSelector((state) => state.auth  || []);
+    const { errorMessage, successMessage } = useSelector((state) => state.card  || []);
+
+    const add_card = (id) => {
+        if (userInfo) {
+            dispatch(add_to_card({
+                userId: userInfo.id,
+                quantity: 1,
+                productId: id
+            }))
+        } else {
+            navigate('/login')
+        }
+    }
+
+    useEffect(() => {
+        if (successMessage) {
+            toast.success(successMessage)
+            dispatch(messageClear())
+        }
+        if (errorMessage) {
+            toast.error(errorMessage)
+            dispatch(messageClear())
+        }
+
+    }, [dispatch, successMessage, errorMessage])
+
     return (
         <div className="w-[87%] mx-auto relativer">
             <div className="w-full">
@@ -41,7 +74,8 @@ const FeaturedProducts = ({ products }) => {
                                                    hover:rotate-[720deg] transition-all">
                                         <FaEye />
                                     </Link>
-                                    <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center
+                                    <li onClick={() => add_card(p.id)}
+                                        className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center
                                                    items-center rounded-full hover:bg-[#059473] hover:text-white
                                                    hover:rotate-[720deg] transition-all">
                                         <RiShoppingCartLine />
