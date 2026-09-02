@@ -12,7 +12,10 @@ const Header = () => {
         categories = [],
     } = useSelector(state => state.home ?? {});
     const {userInfo} = useSelector(state => state.auth || []);
-    const { card_product_count } = useSelector(state => state.card || []);
+    const {
+        card_product_count,
+        //wishlist_count //uncomment after tests
+    } = useSelector(state => state.card || []);
     const {pathname} = useLocation();
 
     const [showSidebar, setShowSidebar] = useState(true);
@@ -164,13 +167,16 @@ const Header = () => {
                                         <div className="relative flex items-center justify-center cursor-pointer w-[35px]
                                                        h-[35px] rounded-full bg-[#E2E2E2]">
                                             <span className="text-xl text-green-500"><FaCartShopping /></span>
-                                            <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full
+                                            { wishlist_count !== 0 &&
+                                                <div className="w-[20px] h-[20px] absolute bg-red-500 rounded-full
                                                            text-white flex justify-center items-center
                                                            -top-[3px] -right-[5px]">
-                                                {
-                                                    wishlist_count
-                                                }
-                                            </div>
+                                                    {
+                                                        wishlist_count
+                                                    }
+                                                </div>
+                                            }
+
                                         </div>
                                     </div>
                                 </div>

@@ -9,6 +9,13 @@ import Register from "./pages/Register";
 import CategoryShop from "./pages/CategoryShop";
 import SearchProducts from "./pages/SearchProducts";
 import Payment from "./pages/Payment";
+import Dashboard from "./pages/Dashboard";
+import ProtectUser from "./utils/ProtectUser";
+import Index from "./components/Dashboard/Index";
+import Orders from "./components/Dashboard/Orders";
+import ChangePassword from "./components/Dashboard/ChangePassword";
+import Wishlist from "./components/Dashboard/Wishlist";
+import OrderDetails from "./components/Dashboard/OrderDetails";
 
 function App() {
   return (
@@ -24,6 +31,15 @@ function App() {
               <Route path='/products?' element={<CategoryShop />} />
               <Route path='/products/search?' element={<SearchProducts />} />
               <Route path='/product/details/:slug' element={<Details />} />
+              <Route path='/dashboard' element={<ProtectUser />}>
+                  <Route path='' element={<Dashboard />}>
+                      <Route path='' element={<Index />} />
+                      <Route path='my-orders' element={<Orders />} />
+                      <Route path='change-password' element={<ChangePassword />} />
+                      <Route path='my-wishlist' element={<Wishlist />} />
+                      <Route path='order/details/:orderId' element={<OrderDetails />} />
+                  </Route>
+              </Route>
           </Routes>
       </BrowserRouter>
   );
