@@ -2,10 +2,10 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import api from "../../api/api";
 
 export const place_order = createAsyncThunk(
-    'card/place_order',
+    'order/place_order',
     async ({price, products, shipping_fee, items, shippingInfo, userId,navigate}, {fulfillWithValue, rejectWithValue}) => {
         try {
-            const {data} = await api.post('/home/order/plce-order', {
+            const {data} = await api.post('/home/order/place-order', {
                 price, products, shipping_fee, items, shippingInfo, userId, navigate
             })
             navigate('/payment', {
@@ -15,6 +15,30 @@ export const place_order = createAsyncThunk(
                     orderId: data.orderId,
                 }
             })
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
+export const get_orders = createAsyncThunk(
+    'order/get_orders',
+    async ({customerId, status}, {fulfillWithValue, rejectWithValue}) => {
+        try {
+            const {data} = await api.get(`/home/customer/get-orders/${customerId}/${status}`)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
+export const get_order_details = createAsyncThunk(
+    'order/get_order_details',
+    async (orderId, {fulfillWithValue, rejectWithValue}) => {
+        try {
+            const {data} = await api.get(`/home/customer/get-order-details/${orderId}`)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -36,7 +60,15 @@ export const orderReducer = createSlice({
             state.successMessage = "";
         }
     },
-    extraReducers: (builder) => {}
+    extraReducers: (builder) => {
+        builder
+            .addCase(get_orders.fulfilled, (state, { payload }) => {
+                state.myOrders = payload.myOrders;
+            })
+            .addCase(get_order_details.fulfilled, (state, { payload }) => {
+                state.myOrder = payload.myOrder;
+            })
+    }
 })
 
 export const {messageClear} = orderReducer.actions

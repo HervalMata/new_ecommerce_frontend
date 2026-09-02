@@ -51,6 +51,42 @@ export const query_products = createAsyncThunk(
     }
 )
 
+export const product_details = createAsyncThunk(
+    'product/product_details',
+    async (slug, { fulfillWithValue, rejectWithValue }) => {
+        try {
+            const { data } = await api.get(`/home/product-details/${slug}`);
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
+export const customer_review = createAsyncThunk(
+    'review/customer_review',
+    async (info, { fulfillWithValue, rejectWithValue }) => {
+        try {
+            const { data } = await api.post(`/home/customer/submit-review`, info);
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
+export const get_reviews = createAsyncThunk(
+    'review/get_reviews',
+    async ({productId, pageNumber}, { fulfillWithValue, rejectWithValue }) => {
+        try {
+            const { data } = await api.get(`/home/customer/get-reviews/${productId}?pageNo=${pageNumber}`);
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
 export const homeReducer = createSlice({
     name: "home",
     initialState: {
@@ -64,9 +100,22 @@ export const homeReducer = createSlice({
         priceRange: {
             low: 0,
             high: 100,
+        },
+        product: [],
+        relatedProducts: [],
+        moreProducts: [],
+        errorMessage: '',
+        successMessage: '',
+        totalReview: 0,
+        rating_review: [],
+        reviews: []
+    },
+    reducers: {
+        messageClear: (state, _) => {
+            state.errorMessage = "";
+            state.successMessage = "";
         }
     },
-    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(get_category.fulfilled, (state, { payload }) => {
@@ -87,7 +136,21 @@ export const homeReducer = createSlice({
                 state.totalProduct = payload.totalProduct;
                 state.perPage = payload.perPage;
             })
+            .addCase(product_details.fulfilled, (state, { payload }) => {
+                state.product = payload.product;
+                state.relatedProducts = payload.relatedProducts;
+                state.moreProducts = payload.moreProducts;
+            })
+            .addCase(customer_review.fulfilled, (state, { payload }) => {
+                state.successMessage = payload.message
+            })
+            .addCase(get_reviews.fulfilled, (state, { payload }) => {
+                state.reviews = payload.reviews
+                state.totalReview = payload.totalReview
+                state.rating_review = payload.rating_review
+            })
     },
 })
 
+export const {messageClear} = homeReducer.actions
 export default homeReducer;
