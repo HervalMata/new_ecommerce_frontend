@@ -1,10 +1,16 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import {Link} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {IoIosArrowForward} from "react-icons/io";
 import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
 const Shipping = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { userInfo } = useSelector((state) => state.auth  || []);
+
+    const { state: { products, price, shipping_fee, items } } = useLocation()
     const [res, setRes] = useState(false);
     const [state, setState] = useState({
         name: '',
@@ -15,6 +21,17 @@ const Shipping = () => {
         city: '',
         area: '',
     });
+
+    const placeOrder = () => {
+        dispatch({
+            price,
+            products,
+            shipping_fee,
+            shippingInfo: state,
+            userId: userInfo.id,
+            navigate,
+        })
+    }
 
     const inputHandle = (e) => {
         setState({
@@ -153,36 +170,46 @@ const Shipping = () => {
                                 </div>
 
                                 {
-                                    [1,2].map((p, i) =>
-                                        <div className="flex bg-white p-4 flex-col gap-2">
+                                    products.map((p, i) =>
+                                        <div key={i} className="flex bg-white p-4 flex-col gap-2">
                                             <div className="flex justify-start items-center">
-                                                <h2 className="test-md text-slate-600 font-bold">Cris Laços</h2>
+                                                <h2 className="test-md text-slate-600 font-bold">{p.shopName}</h2>
                                             </div>
                                             {
-                                                [1,2].map((p, i) =>
+                                                p.products.map((pt, i) =>
                                                     <div className="w-full flex flex-wrap">
                                                         <div className="flex sm:w-full gap-2 w-7/12">
                                                             <div className="flex gap-2 justify-start items-center">
                                                                 <img className="w-[80px] h-[80px]"
-                                                                    src={`http://localhost:3000/images/products/${i+1}.webp`} alt="" />
+                                                                    src={pt.productInfo.images[0]} alt="" />
                                                                 <div className="pr-4 text-slate-600">
-                                                                    <h2 className="text-md font-semibold">Nome do Produto</h2>
-                                                                    <span className="text-sm">Marca: Cris Laços</span>
+                                                                    <h2 className="text-md font-semibold">
+                                                                        {pt.productInfo.name}
+                                                                    </h2>
+                                                                    <span className="text-sm">
+                                                                        Marca: {pt.productInfo.brand}
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
                                                             <div className="pl-4 sm:pl-0">
-                                                                <h2 className="text-lg text-orange-500">R$ 240,00</h2>
-                                                                <p className="line-through">R$ 300,00</p>
-                                                                <p>-15%</p>
+                                                                <h2 className="text-lg text-orange-500">
+                                                                    R$ {(pt.productInfo.price -
+                                                                            Math.floor((pt.productInfo.price * pt.productInfo.discount) / 100))
+                                                                    .toLocaleString('pt-BR', { maximumFractionDigits: 2})}
+                                                                </h2>
+                                                                <p className="line-through">
+                                                                    R$ {pt.productInfo.price.toLocaleString('pt-BR', { maximumFractionDigits: 2})}
+                                                                </p>
+                                                                <p>-{pt.productInfo.discount}%</p>
                                                             </div>
                                                             <div className="flex gap-2 flex-col">
                                                                 <div className="flex bg-slate-200 h-[30px]
                                                                            justify-center items-center text-xl">
                                                                     <div className="px-3 cursor-pointer">-</div>
-                                                                    <div className="px-3">2</div>
+                                                                    <div className="px-3">{pt.quantity}</div>
                                                                     <div className="px-3 cursor-pointer">+</div>
                                                                 </div>
                                                                 <button className="px-5 py-[3px] bg-red-500 text-white"
@@ -202,22 +229,30 @@ const Shipping = () => {
                                 <div className="bg-white p-3 text-slate-600 flex flex-col gap-3">
                                     <h2 className="text-xl font-bold">Resumo da Ordem</h2>
                                     <div className="flex justify-between items-center">
-                                        <span>Total de itens (5)</span>
-                                        <span>R$ 343,00</span>
+                                        <span>Total de itens (items)</span>
+                                        <span>
+                                            R$ {price.toLocaleString('pt-BR', { maximumFractionDigits: 2})}
+                                        </span>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <span>Taxa de Entrega</span>
-                                        <span>R$ 40,00</span>
+                                        <span>
+                                            R$ {shipping_fee.toLocaleString('pt-BR', { maximumFractionDigits: 2})}
+                                        </span>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <span>Total Para pagamento</span>
-                                        <span>R$ 450,00</span>
+                                        <span>
+                                            R$ {(price + shipping_fee).toLocaleString('pt-BR', { maximumFractionDigits: 2})}
+                                        </span>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <span>Total</span>
-                                        <span className="text-lg text-[#059473]">R$ 490,00</span>
+                                        <span className="text-lg text-[#059473]">
+                                            R$ {(price + shipping_fee).toLocaleString('pt-BR', { maximumFractionDigits: 2})}
+                                        </span>
                                     </div>
-                                    <button disabled={!!res}
+                                    <button disabled={!!res} onClick={placeOrder}
                                         className={`px-5 py-[6px] rounded-sm hover:shadow-green-500/50 hover:shadow-lg ${
                                             res ? 'bg-red-500' : 'bg-red-300'
                                         } text-sm text-white uppercase`}>
